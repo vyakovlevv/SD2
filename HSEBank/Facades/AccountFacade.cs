@@ -1,12 +1,28 @@
-﻿using HSEBank.Domain.Factories;
+﻿using HSEBank.Domain.Events;
+using HSEBank.Domain.Factories;
 using HSEBank.Domain.Models;
 using HSEBank.Repositories;
 using HSEBank.Services;
 
 namespace HSEBank.Facades;
 
-public class AccountFacade(IDomainFactory domainFactory, IAccountService accountService, IAccountRepository accountRepository, IOperationService operationService, IAnalyticsService analyticsService)
+public class AccountFacade(IDomainFactory domainFactory, IAccountService accountService, ICategoryService categoryService, IAccountRepository accountRepository, IOperationService operationService, IAnalyticsService analyticsService, IEventBus events)
 {
+    
+    public BankAccount CreateAccountWithInitialDeposit(string name, uint initialDeposit)
+    {
+        var account = accountService.Create(name, 0);
+
+        var cat = categoryService.GetAll().FirstOrDefault(c => c.Name == "Стартовый депозит")
+                  ?? categoryService.Create(OperationType.Income, "Стартовый депозит");
+
+        operationService.Create(OperationType.Income, account.Id, cat.Id, initialDeposit, "Начальный баланс");
+
+        events.Publish(new DomainEvent("AccountCreatedWithDeposit", account));
+        Console.WriteLine($"[Facade] Создан счёт '{account.Name}' с начальными {initialDeposit} ₽");
+
+        return account;
+    }
 
     public void RecalculateBalance(uint accountId)
     {

@@ -1,6 +1,9 @@
 ﻿using HSEBank.Commands;
 using HSEBank.Domain.Events;
 using HSEBank.Domain.Handlers;
+using HSEBank.Facades;
+using HSEBank.IO;
+using HSEBank.IO.Factories;
 using HSEBank.Repositories;
 using HSEBank.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,13 +38,16 @@ public class DepInjConfig
         services.AddSingleton<IOperationService, OperationService>();
         services.AddSingleton<IAnalyticsService, AnalyticsService>();
 
-        // Facades
         services.AddSingleton<AccountFacade>();
         services.AddSingleton<CategoryFacade>();
         services.AddSingleton<OperationFacade>();
         services.AddSingleton<AnalyticsFacade>();
+        
+        services.AddTransient<CsvExporter>();
+        services.AddTransient<JsonExporter>();
+        services.AddTransient<YamlExporter>();
+        services.AddSingleton<IDataExporterFactory, DataExporterFactory>();
 
-        // Command manager (transient in this demo)
         services.AddSingleton<CommandManager>();
         
         return services.BuildServiceProvider();
