@@ -32,34 +32,34 @@ public class YamlImporter(
         {
             case "account":
                 var account = new BankAccount(
-                    uint.Parse(dict.GetValueOrDefault("id").ToString()),
-                    dict.GetValueOrDefault("name")?.ToString() ?? "Без имени",
-                    uint.Parse(dict.GetValueOrDefault("balance").ToString())
+                    uint.Parse(dict.GetValueOrDefault("Id").ToString()),
+                    dict.GetValueOrDefault("Name")?.ToString() ?? "Без имени",
+                    uint.Parse(dict.GetValueOrDefault("Balance").ToString())
                 );
                 accountRepo.Set(account);
                 break;
 
             case "category":
-                Enum.TryParse<OperationType>(dict.GetValueOrDefault("type")?.ToString() ?? "Expense", true,
+                Enum.TryParse<OperationType>(dict.GetValueOrDefault("Type")?.ToString() ?? "Expense", true,
                     out var catType);
-                var category = new Category(uint.Parse(dict.GetValueOrDefault("id").ToString()),
+                var category = new Category(uint.Parse(dict.GetValueOrDefault("Id").ToString()),
                     catType,
-                    dict.GetValueOrDefault("name")?.ToString() ?? "Без категории"
+                    dict.GetValueOrDefault("Name")?.ToString() ?? "Без категории"
                 );
                 categoryRepo.Set(category);
                 break;
 
             case "operation":
-                Enum.TryParse<OperationType>(dict.GetValueOrDefault("type")?.ToString() ?? "Expense", true,
+                Enum.TryParse<OperationType>(dict.GetValueOrDefault("Type")?.ToString() ?? "Expense", true,
                     out var opType);
                 var op = new Operation(
-                    uint.Parse(dict.GetValueOrDefault("id").ToString()),
+                    uint.Parse(dict.GetValueOrDefault("Id").ToString()),
                     opType,
-                    uint.Parse(dict.GetValueOrDefault("accountId")?.ToString()),
-                    uint.Parse(dict.GetValueOrDefault("categoryId")?.ToString()),
-                    uint.Parse(dict.GetValueOrDefault("amount").ToString()),
-                    DateTime.Parse(dict.GetValueOrDefault("date")?.ToString() ?? DateTime.UtcNow.ToString()),
-                    dict.GetValueOrDefault("description")?.ToString() ?? ""
+                    uint.Parse(dict.GetValueOrDefault("AccountId")?.ToString()),
+                    uint.Parse(dict.GetValueOrDefault("CategoryId")?.ToString()),
+                    uint.Parse(dict.GetValueOrDefault("Amount").ToString()),
+                    DateTime.Parse(dict.GetValueOrDefault("Date")?.ToString() ?? DateTime.UtcNow.ToString()),
+                    dict.GetValueOrDefault("Description")?.ToString() ?? ""
                 );
                 operationRepo.Set(op);
                 break;

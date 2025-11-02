@@ -19,7 +19,7 @@ public class AccountFacade(IDomainFactory domainFactory, IAccountService account
         operationService.Create(OperationType.Income, account.Id, cat.Id, initialDeposit, "Начальный баланс");
 
         events.Publish(new DomainEvent("AccountCreatedWithDeposit", account));
-        Console.WriteLine($"[Facade] Создан счёт '{account.Name}' с начальными {initialDeposit} ₽");
+        Console.WriteLine($"[Facade] Создан счёт '{account.Name}' с начальными {initialDeposit / 100} rub");
 
         return account;
     }
@@ -41,6 +41,6 @@ public class AccountFacade(IDomainFactory domainFactory, IAccountService account
         accountService.Remove(account.Id);
         accountRepository.Set(corrected);
 
-        Console.WriteLine($"[Facade] Recalculated balance for {account.Name} = {balance}");
+        Console.WriteLine($"[Facade] Пересчитан баланс для {account.Name} = {balance}");
     }
 }

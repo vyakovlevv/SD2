@@ -24,13 +24,13 @@ public class AnalyticsFacade
         var diff = _analytics.CalculateBalanceDiff(accountId, from, to);
         var grouped = _analytics.GroupByCategory(accountId, from, to);
 
-        Console.WriteLine($"\n📊 Отчёт по счёту: {account.Name}");
+        Console.WriteLine($"Отчёт по счёту: {account.Name}");
         Console.WriteLine($"Период: {from:dd.MM.yyyy} - {to:dd.MM.yyyy}");
-        Console.WriteLine($"Изменение баланса: {diff} rub");
-        Console.WriteLine("Траты по категориям:");
+        Console.WriteLine($"Изменение баланса: {diff / 100} rub");
+        Console.WriteLine("Операции по категориям:");
         foreach (var kv in grouped)
         {
-            Console.WriteLine($"  - {kv.Key}: {kv.Value} rub");
+            Console.WriteLine($"  - {kv.Key}: {kv.Value / 100} rub");
         }
     }
 }

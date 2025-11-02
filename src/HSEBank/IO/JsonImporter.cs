@@ -28,7 +28,7 @@ public class JsonImporter(
     {
         if (item is not Dictionary<string, object> dict) return;
 
-        string? type = dict.GetValueOrDefault("model")?.ToString()?.ToLowerInvariant();
+        string? type = dict.GetValueOrDefault("Model")?.ToString()?.ToLowerInvariant();
         if (type == null) return;
 
         try
@@ -58,9 +58,9 @@ public class JsonImporter(
     private void ImportAccount(Dictionary<string, object> dict)
     {
         var acc = new BankAccount(
-            uint.Parse(dict.GetValueOrDefault("id")?.ToString()),
-            dict.GetValueOrDefault("name")?.ToString() ?? "Без имени",
-            uint.Parse(dict.GetValueOrDefault("balance").ToString())
+            uint.Parse(dict.GetValueOrDefault("Id")?.ToString()),
+            dict.GetValueOrDefault("Name")?.ToString() ?? "Без имени",
+            uint.Parse(dict.GetValueOrDefault("Balance").ToString())
         );
 
         accountRepo.Set(acc);
@@ -69,10 +69,10 @@ public class JsonImporter(
 
     private void ImportCategory(Dictionary<string, object> dict)
     {
-        Enum.TryParse<OperationType>(dict.GetValueOrDefault("type")?.ToString() ?? "Expense", true, out var catType);
+        Enum.TryParse<OperationType>(dict.GetValueOrDefault("Type")?.ToString() ?? "Expense", true, out var catType);
 
-        var cat = new Category(uint.Parse(dict.GetValueOrDefault("id")?.ToString()), catType,
-            dict.GetValueOrDefault("name")?.ToString() ?? "Без категории");
+        var cat = new Category(uint.Parse(dict.GetValueOrDefault("Id")?.ToString()), catType,
+            dict.GetValueOrDefault("Name")?.ToString() ?? "Без категории");
 
         categoryRepo.Set(cat);
         Console.WriteLine($"[JsonImporter] Импортирована категория: {cat.Name} ({cat.Type})");
@@ -80,16 +80,16 @@ public class JsonImporter(
 
     private void ImportOperation(Dictionary<string, object> dict)
     {
-        Enum.TryParse<OperationType>(dict.GetValueOrDefault("type")?.ToString() ?? "Expense", true, out var opType);
+        Enum.TryParse<OperationType>(dict.GetValueOrDefault("Type")?.ToString() ?? "Expense", true, out var opType);
 
         var op = new Operation(
-            uint.Parse(dict.GetValueOrDefault("id")?.ToString()),
+            uint.Parse(dict.GetValueOrDefault("Id")?.ToString()),
             opType,
-            uint.Parse(dict.GetValueOrDefault("accountId")?.ToString()),
-            uint.Parse(dict.GetValueOrDefault("categoryId")?.ToString() ),
-            uint.Parse(dict.GetValueOrDefault("amount").ToString()),
-            DateTime.Parse(dict.GetValueOrDefault("date")?.ToString() ?? DateTime.UtcNow.ToString()),
-            dict.GetValueOrDefault("description")?.ToString() ?? ""
+            uint.Parse(dict.GetValueOrDefault("AccountId")?.ToString()),
+            uint.Parse(dict.GetValueOrDefault("CategoryId")?.ToString() ),
+            uint.Parse(dict.GetValueOrDefault("Amount").ToString()),
+            DateTime.Parse(dict.GetValueOrDefault("Date")?.ToString() ?? DateTime.UtcNow.ToString()),
+            dict.GetValueOrDefault("Description")?.ToString() ?? ""
         );
 
         operationRepo.Set(op);

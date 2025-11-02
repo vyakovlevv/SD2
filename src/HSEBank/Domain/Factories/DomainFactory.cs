@@ -4,9 +4,9 @@ using HSEBank.Repositories;
 namespace HSEBank.Domain.Factories;
 
 public class DomainFactory(
-    AccountRepository accountRepository,
-    CategoryRepository categoryRepository,
-    OperationRepository operationRepository) : IDomainFactory
+    IAccountRepository accountRepository,
+    ICategoryRepository categoryRepository,
+    IOperationRepository operationRepository) : IDomainFactory
 {
     public BankAccount CreateBankAccount(string name, uint initialBalance = 0)
     {

@@ -30,6 +30,6 @@ public class ExportFacade
         all.AddRange(_operations.GetAll());
 
         exporter.Export(all, path);
-        Console.WriteLine($"[ExportFacade] Данные экспортированы в формате {format.ToUpper()} → {path}");
+        Console.WriteLine($"[ExportFacade] Данные экспортированы в формате {format.ToUpper()} -> {path}");
     }
 }
