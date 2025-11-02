@@ -42,26 +42,13 @@ public class OperationService(
 
     public void Cancel(uint id)
     {
-        var op = operationRepository.Get(id) ?? throw new InvalidOperationException("Операция не найдена");
-        var account = accountRepository.Get(op.Id) ?? throw new InvalidOperationException("Аккаунт не найден");
-        // реверсивное действие - отменяем операцию
-        if (op.Type == OperationType.Income)
-        {
-            account.Withdraw(op.Amount);
-        }
-        else
-        {
-            account.Deposit(op.Amount);
-        }
-
-        accountRepository.Set(account);
         events.Publish(new DomainEvent("OperationCanceled", id));
     }
 
     public void Remove(uint id)
     {
         Cancel(id);
-        accountRepository.Remove(id);
+        operationRepository.Remove(id);
         events.Publish(new DomainEvent("OperationRemoved", id));
     }
 

@@ -5,8 +5,8 @@ namespace HSEBank.Domain.Models;
 public class BankAccount : IUnique
 {
     public uint Id { get; set; }
-    public string Name { get; set; }
-    public uint Balance { get; set; }
+    public string Name { get; private set; }
+    public uint Balance { get; private set; }
     
     
     public BankAccount(uint id, string name, uint initialBalance = 0)
@@ -34,4 +34,9 @@ public class BankAccount : IUnique
     }
 
     public void AcceptExporter(IExporter exporter) => exporter.Export(this);
+
+    public BankAccount Clone()
+    {
+        return new BankAccount(Id, Name, Balance);
+    }
 }
