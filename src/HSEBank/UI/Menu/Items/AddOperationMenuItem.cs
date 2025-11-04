@@ -52,7 +52,16 @@ public class AddOperationMenuItem(OperationFacade opFacade, IAccountService accS
         }
 
         Console.Write("Введите сумму (без знака): ");
-        uint amount = (uint)(decimal.Parse(Console.ReadLine() ?? "0") * 100);
+        uint amount = 0;
+        try
+        {
+            amount = (uint)(decimal.Parse(Console.ReadLine() ?? "0") * 100);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Некорректно введено число: " + e.Message);
+            return;
+        }
 
         Console.Write("Описание: ");
         string desc = Console.ReadLine() ?? "";

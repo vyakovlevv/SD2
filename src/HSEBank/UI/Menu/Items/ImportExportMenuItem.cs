@@ -22,15 +22,22 @@ public class ImportExportMenuItem : IMenuItem
 
         Console.Write("Введите путь к файлу (например, data.json): ");
         var path = Console.ReadLine() ?? "data.json";
-
-        if (choice == "1")
+        try
         {
-            _import.Import(path);
+            if (choice == "1")
+            {
+                _import.Import(path);
+            }
+            else
+            {
+                var ext = Path.GetExtension(path).TrimStart('.');
+                _export.ExportAllData(ext, path);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            var ext = Path.GetExtension(path).TrimStart('.');
-            _export.ExportAllData(ext, path);
+            Console.WriteLine("Не получилось конвертировать данные: " + ex.Message);
         }
+        
     }
 }
