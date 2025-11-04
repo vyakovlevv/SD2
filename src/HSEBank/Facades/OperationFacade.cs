@@ -6,27 +6,16 @@ using HSEBank.Services;
 
 namespace HSEBank.Facades;
 
-public class OperationFacade
+public class OperationFacade(IOperationService ops, IAccountRepository accRepo, CommandManager mgr)
 {
-    private readonly IOperationService _operations;
-    private readonly IAccountRepository _accounts;
-    private readonly CommandManager _commandManager;
-
-    public OperationFacade(IOperationService ops, IAccountRepository accRepo, CommandManager mgr)
-    {
-        _operations = ops;
-        _accounts = accRepo;
-        _commandManager = mgr;
-    }
-
     /// <summary>
     /// Выполнить операцию (доход/расход) через паттерн Команда, с возможностью Undo.
     /// </summary>
     public void ExecuteOperation(OperationType type, uint accountId, uint categoryId, uint amount, string description)
     {
-        var cmd = new CreateOperationCommand(_operations, _accounts, type, accountId, categoryId, amount, description);
+        var cmd = new CreateOperationCommand(ops, accRepo, type, accountId, categoryId, amount, description);
         var decorated = new CommandTimerDecorator(cmd, "CreateOperation");
-        _commandManager.Execute(decorated);
+        mgr.Execute(decorated);
     }
 
     /// <summary>
@@ -34,6 +23,6 @@ public class OperationFacade
     /// </summary>
     public void UndoLastOperation()
     {
-        _commandManager.Undo();
+        mgr.Undo();
     }
 }

@@ -5,5 +5,4 @@ public enum OperationStatus
     InProgress,
     Blocked,
     Completed,
-    Canceled,
 }

@@ -5,8 +5,8 @@ namespace HSEBank.Domain.Models;
 public class Category : IUnique
 {
     public uint Id { get; }
-    public string Name { get; set; }
-    public OperationType Type { get; set; }
+    public string Name { get; private set; }
+    public OperationType Type { get; }
     
     
     public Category(uint id, OperationType type, string name)
