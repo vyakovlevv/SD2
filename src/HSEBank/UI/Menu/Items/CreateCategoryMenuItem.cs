@@ -37,7 +37,7 @@ public class CreateCategoryMenuItem(ICategoryService categoryService) : IMenuIte
         catch (Exception e)
         {
             Console.WriteLine("Не получилось создать категорию: " + e.Message);
-            throw;
+            return;
         }
         Console.WriteLine($"Категория '{name}' создана ({type})");
     }

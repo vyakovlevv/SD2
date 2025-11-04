@@ -15,7 +15,7 @@ public class CreateAccountMenuItem(AccountFacade facade) : IMenuItem
         uint amount = 0;
         try
         {
-            amount = uint.Parse(Console.ReadLine() ?? "0") * 100;
+            amount = (uint)(decimal.Parse(Console.ReadLine() ?? "0") * 100);
         }
         catch (Exception e)
         {

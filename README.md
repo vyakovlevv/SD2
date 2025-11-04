@@ -57,17 +57,17 @@
 
 ## Применённые паттерны GoF
 
-| Паттерн | Где реализован | Назначение |
-|----------|----------------|-------------|
-| **Facade** | `AccountFacade`, `OperationFacade`, `AnalyticsFacade`, `ImportFacade`, `ExportFacade` | Объединяют несколько сервисов в один сценарий (например, “создать счёт и внести депозит”) |
-| **Command** | `CreateOperationCommand`, `CommandManager` | Выполнение операций с возможностью отката (Undo) |
-| **Memento** | `AccountMemento`, `AccountHistory` | Хранение и восстановление предыдущих состояний счёта |
-| **Observer** | `EventBus`, `DomainEvent` | Уведомления о событиях (например, `OperationBlocked`, `DataImported`) |
-| **Chain of Responsibility** | `ValidationHandler`, `SecurityHandler`, `LoggingHandler` | Проверка операций по цепочке (валидация → безопасность → логирование) |
-| **Strategy** | `CsvExporter`, `JsonExporter`, `YamlExporter`, `CsvImporter`, `JsonImporter`, `YamlImporter` | Выбор подходящей стратегии импорта/экспорта по формату |
-| **Template Method** | `DataExporter`, `DataImporter` | Общий шаблон шагов для всех экспортёров и импортёров |
-| **Iterator** | Методы `GetAll()` в репозиториях | Перебор коллекций доменных объектов |
-| **Decorator** | `CommandTimerDecorator` | Расширение поведения команд (логирование времени выполнения) |
-| **Factory Method** | Внутри `ImportFacade`/`ExportFacade` — выбор нужного обработчика по расширению | Создание нужного обработчика по типу данных |
+| Паттерн                     | Где реализован | Назначение                                                                                 |
+|-----------------------------|----------------|--------------------------------------------------------------------------------------------|
+| **Facade**                  | `AccountFacade`, `OperationFacade`, `AnalyticsFacade`, `ImportFacade`, `ExportFacade` | Объединяют несколько сервисов в один сценарий (например, “создать счёт и внести депозит”)  |
+| **Command**                 | `CreateOperationCommand`, `CommandManager` | Выполнение операций с возможностью отката (Undo)                                           |
+| **Memento**                 | `AccountMemento`, `AccountHistory` | Хранение и восстановление предыдущих состояний счёта                                       |
+| **Observer**                | `EventBus`, `DomainEvent` | Уведомления о событиях (например, `OperationBlocked`, `DataImported`)                      |
+| **Chain of Responsibility** | `ValidationHandler`, `SecurityHandler`, `LoggingHandler` | Проверка операций по цепочке (валидация → безопасность → логирование)                      |
+| **Strategy и Visitor**      | `CsvExporter`, `JsonExporter`, `YamlExporter`, `CsvImporter`, `JsonImporter`, `YamlImporter` | Выбор подходящей стратегии импорта/экспорта по формату и экспорт данных при помощи Visitor |
+| **Template Method**         | `DataExporter`, `DataImporter` | Общий шаблон шагов для всех экспортёров и импортёров                                       |
+| **Iterator**                | Методы `GetAll()` в репозиториях | Перебор коллекций доменных объектов                                                        |
+| **Decorator**               | `CommandTimerDecorator` | Расширение поведения команд (логирование времени выполнения)                               |
+| **Factory Method**          | Внутри `ImportFacade`/`ExportFacade` — выбор нужного обработчика по расширению | Создание нужного обработчика по типу данных                                                |
 
 ---
